@@ -18,20 +18,32 @@ class ListaTransacoesAdapter(
         private val transacoes: List<Transacao>,
         private val context: Context): BaseAdapter() {
 
+    private val corR = ContextCompat.getColor(context, R.color.receita)
+    private val corD = ContextCompat.getColor(context, R.color.despesa)
+    private val iconeR = R.drawable.icone_transacao_item_receita
+    private val iconeD = R.drawable.icone_transacao_item_despesa
+
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
-        val viewCreated = LayoutInflater.from(context).inflate(R.layout.transacao_item, parent, false)
+        val viewCreated = LayoutInflater.from(context)
+                .inflate(R.layout.transacao_item, parent, false)
         val transacao = transacoes[position]
 
         if (transacao.tipo == Tipo.RECEITA){
-            viewCreated.transacao_valor.setTextColor(ContextCompat.getColor(context, R.color.receita))
-            viewCreated.transacao_icone.setBackgroundResource(R.drawable.icone_transacao_item_receita)
+            with(viewCreated){
+                transacao_valor.setTextColor(corR)
+                transacao_icone.setBackgroundResource(iconeR)
+            }
         }else{
-            viewCreated.transacao_valor.setTextColor(ContextCompat.getColor(context, R.color.despesa))
-            viewCreated.transacao_icone.setBackgroundResource(R.drawable.icone_transacao_item_despesa)
+            with(viewCreated){
+                transacao_valor.setTextColor(corD)
+                transacao_icone.setBackgroundResource(iconeD)
+            }
         }
-        viewCreated.transacao_valor.text = transacao.valor.moedaFormatBR()
-        viewCreated.transacao_categoria.text = transacao.categoria.limiteStringCategoria()
-        viewCreated.transacao_data.text = transacao.data.dataFormatBR()
+        with(viewCreated){
+            transacao_valor.text = transacao.valor.moedaFormatBR()
+            transacao_categoria.text = transacao.categoria.limiteStringCategoria()
+            transacao_data.text = transacao.data.dataFormatBR()
+        }
         return viewCreated
     }
     override fun getCount(): Int {
