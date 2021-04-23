@@ -16,24 +16,30 @@ class ResumoView(private val view: View,
     private val corDespesa = ContextCompat.getColor(context, R.color.despesa)
     private val corReceita = ContextCompat.getColor(context, R.color.receita)
 
-    fun adicionaReceita() {
-        val totalReceita = Resumo(transacoes).receita()
+    fun atualiza(){
+        adicionaReceita()
+        adicionaDespesa()
+        adicionaTotal()
+    }
+
+    private fun adicionaReceita() {
+        val totalReceita = Resumo(transacoes).receita
         with(view.resumo_card_receita){           //chama o objeto apenas uma vez, coloca suas propriedades e suas funções
             text = totalReceita.moedaFormatBR()
-            view.resumo_card_receita.setTextColor(corReceita)
+            setTextColor(corReceita)
         }
     }
 
-    fun adicionaDespesa() {
-        var totalDespesa = Resumo(transacoes).despesa()
+    private fun adicionaDespesa() {
+        var totalDespesa = Resumo(transacoes).despesa
         with(view.resumo_card_despesa){
             text = totalDespesa.moedaFormatBR()
-            view.resumo_card_despesa.setTextColor(corDespesa)
+           setTextColor(corDespesa)
         }
     }
 
-    fun adicionaTotal(){
-        val total = Resumo(transacoes).total()
+    private fun adicionaTotal(){
+        val total = Resumo(transacoes).total
         val cor = qualCor(total)
         with(view.resumo_card_total){
             setTextColor(cor)
@@ -42,7 +48,9 @@ class ResumoView(private val view: View,
     }
 
     private fun qualCor(valor: BigDecimal): Int {
-        if (valor >= BigDecimal.ZERO){ // No kotlin trabalha com objeto, então o compareTo já esta implicito
+        if (valor <= BigDecimal.ZERO){
+            //As entidades do Kotlin são objeto
+            //não é necessário usar compareTo e equals, nos operadores já esta implícito
             return corDespesa
         } else {
             return corReceita
