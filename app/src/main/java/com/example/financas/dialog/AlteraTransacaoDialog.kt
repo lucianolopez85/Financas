@@ -18,7 +18,7 @@ import kotlinx.android.synthetic.main.form_transacao.view.*
 import java.math.BigDecimal
 import java.util.*
 
-class AdicionaTransacaoDialog(private val viewGroup: ViewGroup,
+class AlteraTransacaoDialog(private val viewGroup: ViewGroup,
                               private val context: Context) {
 
     private val viewCreated = criaLayout()
@@ -26,7 +26,14 @@ class AdicionaTransacaoDialog(private val viewGroup: ViewGroup,
     private val campoData = viewCreated.form_transacao_data
     private val campoCategoria = viewCreated.form_transacao_categoria
 
-    fun configDialog(tipo: Tipo, transacaoDelegate: TransacaoDelegate) {
+    fun configDialog(transacao: Transacao, transacaoDelegate: TransacaoDelegate) {
+        val tipo = transacao.tipo
+        campoValor.setText(transacao.valor.toString())
+        campoData.setText(transacao.data.dataFormatBR())
+        val categoriaRetornadas = context.resources.getStringArray(categoriaPor(tipo))//é uma posição, pegar array de RECEITAS OU DESPESA
+        val posicaoCategoria = categoriaRetornadas.indexOf(transacao.categoria)
+        campoCategoria.setSelection(posicaoCategoria, true)
+
         configuraCampoData()
         configuraCampoCategoria(tipo)
         configuraFormulario(tipo, transacaoDelegate)

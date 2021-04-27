@@ -8,6 +8,7 @@ import com.example.financas.ResumoView
 import com.example.financas.adapter.ListaTransacoesAdapter
 import com.example.financas.delegate.TransacaoDelegate
 import com.example.financas.dialog.AdicionaTransacaoDialog
+import com.example.financas.dialog.AlteraTransacaoDialog
 import com.example.financas.model.Tipo
 import com.example.financas.model.Transacao
 import kotlinx.android.synthetic.main.activity_lista_transacoes.*
@@ -64,6 +65,16 @@ class ListaTransacoesActivity : AppCompatActivity() {
 
     private fun configuraLista() {
         lista_transacoes_listview.adapter = ListaTransacoesAdapter(transacoes, this)
+        lista_transacoes_listview.setOnItemClickListener { parent, view, posicao, id ->
+            val transacao = transacoes[posicao]
+            AlteraTransacaoDialog(window.decorView as ViewGroup, this)
+                    .configDialog(transacao, object : TransacaoDelegate{
+                        override fun delegate(transacao: Transacao) {
+                            atualizaTransacoes(transacao)
+                        }
+
+                    })
+        }
     }
 
 
