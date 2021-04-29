@@ -28,15 +28,16 @@ class AlteraTransacaoDialog(private val viewGroup: ViewGroup,
 
     fun configDialog(transacao: Transacao, transacaoDelegate: TransacaoDelegate) {
         val tipo = transacao.tipo
+
+        configuraCampoData()
+        configuraCampoCategoria(tipo)
+        configuraFormulario(tipo, transacaoDelegate)
+
         campoValor.setText(transacao.valor.toString())
         campoData.setText(transacao.data.dataFormatBR())
         val categoriaRetornadas = context.resources.getStringArray(categoriaPor(tipo))//é uma posição, pegar array de RECEITAS OU DESPESA
         val posicaoCategoria = categoriaRetornadas.indexOf(transacao.categoria)
         campoCategoria.setSelection(posicaoCategoria, true)
-
-        configuraCampoData()
-        configuraCampoCategoria(tipo)
-        configuraFormulario(tipo, transacaoDelegate)
     }
 
     private fun configuraFormulario(tipo: Tipo, transacaoDelegate: TransacaoDelegate) {
@@ -45,7 +46,7 @@ class AlteraTransacaoDialog(private val viewGroup: ViewGroup,
         AlertDialog.Builder(context)
                 .setTitle(titulo)
                 .setView(viewCreated)
-                .setPositiveButton("Adicionar"
+                .setPositiveButton("Alterar"
                 ) { _, _ ->//underscore, não esta sendo utilizado
                     val valorEmTexto = campoValor.text.toString()
                     val dataEmTexto = campoData.text.toString()
@@ -67,9 +68,9 @@ class AlteraTransacaoDialog(private val viewGroup: ViewGroup,
 
     private fun tituloPor(tipo: Tipo): Int {
         if (tipo == Tipo.RECEITA) {
-            return R.string.adiciona_receita
+            return R.string.altera_receita
         }
-        return R.string.adiciona_despesa
+        return R.string.altera_despesa
     }
 
     private fun converterCampoValor(valorEmTexto: String): BigDecimal {

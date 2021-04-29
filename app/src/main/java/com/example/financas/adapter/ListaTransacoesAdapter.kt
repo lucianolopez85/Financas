@@ -23,6 +23,7 @@ class ListaTransacoesAdapter(
     private val iconeR = R.drawable.icone_transacao_item_receita
     private val iconeD = R.drawable.icone_transacao_item_despesa
 
+
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
         val viewCreated = LayoutInflater.from(context)
                 .inflate(R.layout.transacao_item, parent, false)

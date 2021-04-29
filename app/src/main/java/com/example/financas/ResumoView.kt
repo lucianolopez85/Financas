@@ -10,9 +10,10 @@ import com.example.financas.model.Transacao
 import kotlinx.android.synthetic.main.resumo_card.view.*
 import java.math.BigDecimal
 
-class ResumoView(private val view: View,
-                 private val transacoes: List<Transacao>,
-                 context: Context) {
+class ResumoView(context: Context,
+                 private val view: View,
+                 private val transacoes: List<Transacao>) {
+
     private val corDespesa = ContextCompat.getColor(context, R.color.despesa)
     private val corReceita = ContextCompat.getColor(context, R.color.receita)
 
@@ -24,26 +25,26 @@ class ResumoView(private val view: View,
 
     private fun adicionaReceita() {
         val totalReceita = Resumo(transacoes).receita
-        with(view.resumo_card_receita){           //chama o objeto apenas uma vez, coloca suas propriedades e suas funções
-            text = totalReceita.moedaFormatBR()
-            setTextColor(corReceita)
+            with(view.resumo_card_receita){
+                text = totalReceita.moedaFormatBR()
+                setTextColor(corReceita)
         }
     }
 
     private fun adicionaDespesa() {
         var totalDespesa = Resumo(transacoes).despesa
-        with(view.resumo_card_despesa){
-            text = totalDespesa.moedaFormatBR()
-           setTextColor(corDespesa)
+            with(view.resumo_card_despesa){
+                text = totalDespesa.moedaFormatBR()
+                setTextColor(corDespesa)
         }
     }
 
     private fun adicionaTotal(){
         val total = Resumo(transacoes).total
         val cor = qualCor(total)
-        with(view.resumo_card_total){
-            setTextColor(cor)
-            text = total.moedaFormatBR()
+            with(view.resumo_card_total){
+                setTextColor(cor)
+                text = total.moedaFormatBR()
         }
     }
 
