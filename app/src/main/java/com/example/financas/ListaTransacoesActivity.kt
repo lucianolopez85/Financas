@@ -22,7 +22,7 @@ import kotlinx.android.synthetic.main.activity_lista_transacoes.*
 class ListaTransacoesActivity : AppCompatActivity() {
 
     private val dao = TransacaoDAO()
-    private val transacoes 9= dao.transacoes
+    private val transacoes = dao.transacoes
     private val viewDaActivity by lazy {
         window.decorView
     }
